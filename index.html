@@ -1,0 +1,692 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Dashboard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style>
+@import url('https://fonts.googleapis.com/css?family=Muli&display=swap');
+
+* {
+	box-sizing: border-box;
+}
+
+
+body {
+	background-image: linear-gradient(45deg, #d8d8d8, #7e77ff);
+	font-family: 'Muli', sans-serif;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	min-height: 100vh;
+	margin: 0;
+}
+
+.courses-container {
+	margin-right: 80px;
+}
+
+.course {
+	background-color: #fff;
+	border-radius: 10px;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+	display: flex;
+	max-width: 100%;
+	margin: 40px;
+	overflow: hidden;
+	width: 100%;
+}
+
+.course h6 {
+	opacity: 0.6;
+	margin: 0;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+.course h2 {
+	letter-spacing: 1px;
+	margin: 10px 0;
+}
+
+.course-preview {
+	background-color: #2A265F;
+	color: #fff;
+	padding: 30px;
+	max-width: 400px;
+}
+
+.course-preview a {
+	color: #fff;
+	display: inline-block;
+	font-size: 12px;
+	opacity: 0.6;
+	margin-top: 30px;
+	text-decoration: none;
+}
+
+.course-info {
+	padding: 30px;
+	position: relative;
+	width: 100%;
+}
+
+.progress-container {
+	position: absolute;
+	top: 30px;
+	right: 30px;
+	text-align: right;
+	width: 150px;
+}
+
+.progress {
+	background-color: #ddd;
+	border-radius: 3px;
+	height: 5px;
+	width: 100%;
+}
+
+.progress::after {
+	border-radius: 3px;
+	background-color: #2A265F;
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 5px;
+	width: 10%;
+}
+
+.progress-text {
+	font-size: 10px;
+	opacity: 0.6;
+	letter-spacing: 1px;
+}
+
+.btn {
+	background-color: #2A265F;
+	border: 0;
+	border-radius: 50px;
+	box-shadow: 0 10px 10px rgba(0, 0, 0, 0.2);
+	color: #fff;
+	font-size: 16px;
+	padding: 12px 25px;
+	position: absolute;
+	bottom: 30px;
+	right: 30px;
+	letter-spacing: 1px;
+}
+
+/* SOCIAL PANEL CSS */
+.social-panel-container {
+	position: fixed;
+	right: 0;
+	bottom: 80px;
+	transform: translateX(100%);
+	transition: transform 0.4s ease-in-out;
+}
+
+.social-panel-container.visible {
+	transform: translateX(-10px);
+}
+
+.social-panel {	
+	background-color: #fff;
+	border-radius: 16px;
+	box-shadow: 0 16px 31px -17px rgba(0,31,97,0.6);
+	border: 5px solid #001F61;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-family: 'Muli';
+	position: relative;
+	height: 169px;	
+	width: 370px;
+	max-width: calc(100% - 10px);
+}
+
+.social-panel button.close-btn {
+	border: 0;
+	color: #97A5CE;
+	cursor: pointer;
+	font-size: 20px;
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+.social-panel button.close-btn:focus {
+	outline: none;
+}
+
+.social-panel p {
+	background-color: #001F61;
+	border-radius: 0 0 10px 10px;
+	color: #fff;
+	font-size: 14px;
+	line-height: 18px;
+	padding: 2px 17px 6px;
+	position: absolute;
+	top: 0;
+	left: 50%;
+	margin: 0;
+	transform: translateX(-50%);
+	text-align: center;
+	width: 235px;
+}
+
+.social-panel p i {
+	margin: 0 5px;
+}
+
+.social-panel p a {
+	color: #FF7500;
+	text-decoration: none;
+}
+
+.social-panel h4 {
+	margin: 20px 0;
+	color: #97A5CE;	
+	font-family: 'Muli';	
+	font-size: 14px;	
+	line-height: 18px;
+	text-transform: uppercase;
+}
+
+.social-panel ul {
+	display: flex;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.social-panel ul li {
+	margin: 0 10px;
+}
+
+.social-panel ul li a {
+	border: 1px solid #DCE1F2;
+	border-radius: 50%;
+	color: #001F61;
+	font-size: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 50px;
+	width: 50px;
+	text-decoration: none;
+}
+
+.social-panel ul li a:hover {
+	border-color: #FF6A00;
+	box-shadow: 0 9px 12px -9px #FF6A00;
+}
+
+.floating-btn {
+	border-radius: 26.5px;
+	background-color: #001F61;
+	border: 1px solid #001F61;
+	box-shadow: 0 16px 22px -17px #03153B;
+	color: #fff;
+	cursor: pointer;
+	font-size: 16px;
+	line-height: 20px;
+	padding: 12px 20px;
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+	z-index: 999;
+}
+
+.floating-btn:hover {
+	background-color: #ffffff;
+	color: #001F61;
+}
+
+.floating-btn:focus {
+	outline: none;
+}
+
+.floating-text {
+	background-color: #001F61;
+	border-radius: 10px 10px 0 0;
+	color: #fff;
+	font-family: 'Muli';
+	padding: 7px 15px;
+	position: fixed;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: center;
+	z-index: 998;
+}
+
+.floating-text a {
+	color: #FF7500;
+	text-decoration: none;
+}
+
+@media screen and (max-width: 480px) {
+
+	.social-panel-container.visible {
+		transform: translateX(0px);
+	}
+	
+	.floating-btn {
+		right: 10px;
+	}
+}
+
+.s130 {
+  min-height: 100vh;
+  
+  font-family: 'Poppins', sans-serif;
+  background: url("../images/Searchs_130.png");
+  background-position: bottom right;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  padding: 15px;
+}
+
+.s130 form {
+  width: 100%;
+  max-width: 790px;
+  padding-top: 24vh;
+}
+
+.s130 form .inner-form {
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  -ms-flex-align: center;
+      align-items: center;
+  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  border-radius: 34px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.s130 form .inner-form .input-field {
+  height: 68px;
+}
+
+.s130 form .inner-form .input-field input {
+  height: 100%;
+  background: transparent;
+  border: 0;
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #000;
+}
+
+.s130 form .inner-form .input-field input.placeholder {
+  color: #222;
+  font-size: 16px;
+}
+
+.s130 form .inner-form .input-field input:-moz-placeholder {
+  color: #222;
+  font-size: 16px;
+}
+
+.s130 form .inner-form .input-field input::-webkit-input-placeholder {
+  color: #222;
+  font-size: 16px;
+}
+
+.s130 form .inner-form .input-field input:hover, .s130 form .inner-form .input-field input:focus {
+  box-shadow: none;
+  outline: 0;
+}
+
+.s130 form .inner-form .input-field.first-wrap {
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  background: #d9f1e3;
+}
+
+.s130 form .inner-form .input-field.first-wrap input {
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+}
+
+.s130 form .inner-form .input-field.first-wrap .svg-wrapper {
+  min-width: 80px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+}
+
+.s130 form .inner-form .input-field.first-wrap svg {
+  width: 36px;
+  height: 36px;
+  fill: #222;
+}
+
+.s130 form .inner-form .input-field.second-wrap {
+  min-width: 216px;
+}
+
+.s130 form .inner-form .input-field.second-wrap .btn-search {
+  height: 100%;
+  width: 100%;
+  white-space: nowrap;
+  font-size: 16px;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  background: #00ad5f;
+  transition: all .2s ease-out, color .2s ease-out;
+  font-weight: 300;
+}
+
+.s130 form .inner-form .input-field.second-wrap .btn-search:hover {
+  background: #009451;
+}
+
+.s130 form .inner-form .input-field.second-wrap .btn-search:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.s130 form .info {
+  font-size: 15px;
+  color: #ccc;
+  padding-left: 26px;
+}
+
+@media screen and (max-width: 992px) {
+  .s130 form .inner-form .input-field {
+    height: 50px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .s130 form .inner-form .input-field.first-wrap .svg-wrapper {
+    min-width: 40px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    padding: 0 10px;
+  }
+  .s130 form .inner-form .input-field.first-wrap svg {
+    width: 26px;
+    height: 26px;
+    fill: #222;
+  }
+  .s130 form .inner-form .input-field.second-wrap {
+    min-width: 100px;
+  }
+  .s130 form .inner-form .input-field.second-wrap .btn-search {
+    font-size: 13px;
+  }
+}
+
+</style>
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+  </head>
+<body>
+    <div class="container">
+    	<h2 class="text-center mt-4 mb-4" style="color: #ffffff;">Dashboard de Seguimiento</h2>
+		<h4 class="text-center mt-4 mb-4" style="color: #ffffff;">Análisis de política pública</h4>
+    	<div class="card" style="height: 100px;">
+    		<input class="form-control" type="file" id="input" accept=".xls,.xlsx" style="height: 100px;" >
+          <button class="btn btn-primary" id="button" style="margin-top: 100px;">Convertir</button>
+		  
+      </div>
+      <div class="col-md-12">
+        <!-- <pre id="jsondata"></pre> -->
+		<!-- <label for="cars">Escoger Entidad:</label>
+		  <select name="cars" id="cars">
+			<option value="volvo">Secretaria de la Mujer</option>
+			<option value="saab">Ministerio</option>
+		  </select>
+          <button class="btn btn-primary" >Buscar</button> -->
+		  
+		 
+    </div>
+     
+    		<!-- <div class="card-body">
+    			
+                <input type="file" id="excel_file" />
+
+    		</div> -->
+    	</div>
+
+
+      <!-- <div class="courses-container">
+        <div class="course">
+          <div class="course-preview">
+            <h6>Étnico Diferencial</h6>
+            <h3 style="margin-top: 20px;">Mejoramiento de la calidad de vida de la población afrodescendiente del Distrito Capital.</h3>
+            <p style="margin-top: 50px;">15/01/2021 - 30/06/2024</p>
+            <a href="#">Igualdad de género<i class="fas fa-chevron-right"></i></a>
+          </div>
+          <div class="course-info">
+            <div class="progress-container">
+              <div class="progress"></div>
+              <span class="progress-text">
+                Progreso
+              </span>
+            </div>
+            <h6>Total Inversión: $53.049.180</h6>
+            <h5 style="margin-top: 15px;"><b>Entidad: Secretaría Distrital de la Mujer </b></h5>
+            <h4 style="margin-top: 40px;"><b>Acción:</b></h4>
+            <h4 style="margin-top: 20px;">Garantizar que las Mujeres Palenqueras sean  formadas en Tecnologías  de la Información y Comunicación (TIC),   donde accedan a cursos en los Centros de Inclusión Digital. Se proveerá acompañamiento para garantizar un proceso con enfoque diferencial, teniendo en cuenta la cosmovisión de la comunidad palenquera con enfoque de género.</h4>
+            <button class="btn">Continue</button>
+          </div>
+        </div>
+      </div> -->
+      
+
+        <div id="excel_data" class="mt-5"></div>
+
+        <div id="cardjson" class="mt-5"></div>
+        <!-- <div class="card card-1" id="excel">
+            <div class="row" style="display: flex;"><div class="col-md-6"><h5 class="card__title">Codigo Accion</h5></div><div class="col-md-6"><h5 class="card__title" style="text-align: end;">ODS</h5></div></div>
+
+            <div style="margin-top: 10px;" ><h4 class="card__title">Componente Accion.Componente Accion.Componente Accion.Componente Accion.Componente Accion.Componente Accionnte Accion.Componente Accion.</h4> </div>
+          <div><p class="card__title">Garantizar que las Mujeres Pale Garantizar que las Mujeres PaleGarantizar que las Mujeres PaleGarantizar que las Mujeres PaleGarantizar que las Mujeres PaleGarantizar que las Mujeres PaleGarantizar que las Mujeres PaleGarantizar que las Mujeres Pale</p></div>
+            <p class="card__apply"><a class="card__link" href="#">Apply Now <i class="fas fa-arrow-right"></i></a></p>
+          </div>  -->
+    </div>
+</body>
+</html>
+
+<script>
+
+const excel_file = document.getElementById('excel_file');
+
+excel_file.addEventListener('change', (event) => {
+
+    if(!['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'].includes(event.target.files[0].type))
+    {
+        document.getElementById('excel_data').innerHTML = '<div class="alert alert-danger">Only .xlsx or .xls file format are allowed</div>';
+
+        excel_file.value = '';
+
+        return false;
+    }
+
+    var reader = new FileReader();
+
+    reader.readAsArrayBuffer(event.target.files[0]);
+
+    reader.onload = function(event){
+
+        var data = new Uint8Array(reader.result);
+
+        var work_book = XLSX.read(data, {type:'array'});
+
+        var sheet_name = work_book.SheetNames;
+
+        var sheet_data = XLSX.utils.sheet_to_json(work_book.Sheets[sheet_name[0]], {header:1});
+
+        if(sheet_data.length > 0)
+        {
+
+            var card_output = '<div class="card card-1">';
+                
+            var table_output = '<table class="table table-striped table-bordered">';
+
+            for(var row = 0; row < sheet_data.length; row++)
+            {
+
+                table_output += '<tr>';
+
+                for(var cell = 0; cell < sheet_data[row].length; cell++)
+                {
+
+                    if(row == 0)
+                    {
+                        table_output += '<th>'+sheet_data[row][cell]+'</th>';
+                    }
+                    //Codigo de la acción
+                    else if (row == 0 && cell==0){
+                      card_output += '<h2 class="card__title">'+sheet_data[row][cell]+'</h2>';
+                    }
+                    else
+                    {
+
+                        table_output += '<td>'+sheet_data[row][cell]+'</td>';
+
+                    }
+
+                }
+
+                table_output += '</tr>';
+
+            }
+
+            card_output += '</div>';
+
+            table_output += '</table>';
+            
+
+            document.getElementById('excel_data').innerHTML = table_output;
+            document.getElementById('excel').innerHTML = card_output;
+        }
+
+        excel_file.value = '';
+
+    }
+
+});
+
+</script>
+
+<script>
+  let selectedFile;
+console.log(window.XLSX);
+document.getElementById('input').addEventListener("change", (event) => {
+    selectedFile = event.target.files[0];
+})
+
+let data=[{
+    "name":"jayanth",
+    "data":"scd",
+    "abc":"sdef"
+}]
+
+function ExcelDateToJSDate(serial) {
+   var utc_days  = Math.floor(serial - 25569);
+   var utc_value = utc_days * 86400;                                        
+   var date_info = new Date(utc_value * 1000);
+
+   var fractional_day = serial - Math.floor(serial) + 0.0000001;
+
+   var total_seconds = Math.floor(86400 * fractional_day);
+
+   var seconds = total_seconds % 60;
+
+   total_seconds -= seconds;
+
+   var hours = Math.floor(total_seconds / (60 * 60));
+   var minutes = Math.floor(total_seconds / 60) % 60;
+
+   return formatDate(new Date(date_info.getFullYear(), date_info.getMonth(), date_info.getDate(), hours, minutes, seconds));
+}
+
+function formatDate(date) {
+	
+  return [
+    padTo2Digits(date.getDate()),
+    padTo2Digits(date.getMonth() + 1),
+    date.getFullYear(),
+  ].join('/');
+}
+
+function padTo2Digits(num) {
+  return num.toString().padStart(2, '0');
+}
+
+function formatToCurrency (amount) {
+  return "$" + Number(amount).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+};
+
+document.getElementById('button').addEventListener("click", () => {
+    XLSX.utils.json_to_sheet(data, 'out.xlsx');
+    if(selectedFile){
+        let fileReader = new FileReader();
+        fileReader.readAsBinaryString(selectedFile);
+        fileReader.onload = (event)=>{
+         let data = event.target.result;
+         let workbook = XLSX.read(data,{type:"binary"});
+         console.log(workbook);
+         workbook.SheetNames.forEach(sheet => {
+              let rowObject = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
+              console.log(rowObject);
+              //document.getElementById("jsondata").innerHTML = JSON.stringify(rowObject,undefined,4)
+
+              var card_output = '';
+                for(var rowObj = 0; rowObj < rowObject.length; rowObj++)
+            {
+              card_output += '<div class="courses-container"><div class="course"><div class="course-preview">';
+              console.log(rowObject[rowObj]);
+			  card_output += '<h6>'+rowObject[rowObj].Enfoque+'</h6>';
+			  card_output += '<h3 style="margin-top: 20px;">'+rowObject[rowObj].COMPONENTE+'</h3>';
+			  card_output += '<p style="margin-top: 50px;">'+ExcelDateToJSDate(rowObject[rowObj].FechaInicio)+ ' - ' +ExcelDateToJSDate(rowObject[rowObj].FechaFinalizacion)+'</p>';
+			  card_output += '<a href="#">Igualdad de género<i class="fas fa-chevron-right"></i></a></div><div class="course-info"><div class="progress-container"><div class="progress"></div><span class="progress-text">Progreso</span></div>';
+			  card_output += '<h6>Total Inversión: '+formatToCurrency(rowObject[rowObj].TOTAL2)+'</h6>';
+			  card_output += '<h5 style="margin-top: 15px;"><b>Entidad: '+rowObject[rowObj].Entidad+'</b></h5>';
+			  card_output += '<h4 style="margin-top: 40px;"><b>Acción:</b></h4>';
+			  card_output += '<h4 style="margin-top: 20px;">'+rowObject[rowObj].AccionConcertada+'</h4>';
+			  card_output += '<button class="btn">Continue</button></div></div></div>';
+            }
+            
+            document.getElementById('cardjson').innerHTML = card_output;
+         });
+        }
+    }
+});
+</script>
+
+
+
+	
+		
+
+		
+		
+		
+		
